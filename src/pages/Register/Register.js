@@ -1,7 +1,8 @@
 import { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import "./Register.css"
 import registerImg from "../../img/imgRegister.jpg";
+import { useAuthentication } from "../../hooks/useAuthentication";
+import ErrorMessage from "../../components/ErrorMessage";
 
 const Register = () => {
   const [displayName, setDisplayName] = useState("");
@@ -9,33 +10,46 @@ const Register = () => {
   const [password, setPassword] = useState("");
   const [error, setError] = useState("");
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const {createUser, error: authError, loading} = useAuthentication();
 
-    if (password.length < 4) {
-        setError("A senha precisa ter no mínimo 4 caracteres.")
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+    
+    const user = {
+      displayName,
+      email,
+      password
     }
 
-    console.log("formulario enviado");
+    await createUser(user)
+
+    setPassword("")
+
   };
+
+  useEffect(() => {
+    if (authError) {
+      setError(authError);
+    }
+  }, [authError])
 
   return (
     <div className="grid md:grid-cols-2 h-screen overflow-hidden">
       {/*Lado esquerdo */}
       <div className="flex justify-center items-center flex-col w-screen lg:w-auto">
         <div className="w-11/12 md:w-3/4 lg:w-[50%]">
-          <div className="text-center mb-16">
+          <div className="text-center mb-6 2xl:mb-14">
             <h1 className="text-5xl md:text-7xl font-Binerka mb-2">
               Traveling
             </h1>
-            <p className="font-thin text-lg">
+            <p className="font-thin text-base 2xl:text-lg">
               Mostre suas experiências de viagens
             </p>
 
-            {error && <div className="error">{error}</div>}
+            {error && <ErrorMessage error={error} />}
           </div>
 
-          <form className="flex flex-col md:mx-8" onSubmit={handleSubmit}>
+          <form className="flex flex-col 2xl:mx-8" onSubmit={handleSubmit}>
             <label>
               <span>Nome: </span>
               <input
@@ -70,7 +84,8 @@ const Register = () => {
               />
             </label>
 
-            <button className="btn">Cadastrar</button>
+            {!loading && <button className="btn">Cadastrar</button>}
+            {loading && <button className="btn" disabled>Cadastrando...</button>}
           </form>
         </div>
 
@@ -83,8 +98,8 @@ const Register = () => {
       </div>
 
       {/* Lado Direito (imagem) */}
-      <div className="hidden lg:flex justify-center">
-        <img src={registerImg} className="h-full object-cover " alt="" />
+      <div className="hidden lg:flex justify-center ">
+        <img src={registerImg} className="h-full object-cover object-center " alt="" />
       </div>
     </div>
   );

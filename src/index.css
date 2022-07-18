@@ -1,8 +1,34 @@
-@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap');
 
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+/* @layer components { 
+  .animationChangeBG {
+    animation-name: animationChangeBG;
+    background-image: url("img/imgLogin.jpg");
+    animation-direction: alternate;
+    animation-duration: 12s;
+    animation-fill-mode: forwards;
+    animation-iteration-count: infinite;
+    animation-play-state: running;
+    animation-timing-function: ease-in-out;
+  } 
+
+  @keyframes animationChangeBG {
+    5% {
+      background-image: url("img/imgLogin.jpg");
+    }
+    60% {
+      background-image: url("img/imgLogin2.jpg");
+    }
+    100% {
+      background-image: url("img/imgLogin5.jpg");
+    }
+  }
+} */
+
 
 @font-face {
   font-family: "Binerka";
@@ -10,7 +36,7 @@
 }
 
 body {
-  @apply bg-creamBG text-blackText font-Montserrat p-0 m-0;
+  @apply bg-creamBG text-blackText font-Montserrat p-0 m-0 selection:bg-second-orange selection:text-orange-900;
 }
 
 input::placeholder,
@@ -20,7 +46,7 @@ textarea::placeholder {
 
 input:focus,
 textarea:focus {
-  @apply outline-none border-2 border-second-orange;
+  @apply outline-none border-2 ;
 }
 
 a,
@@ -36,10 +62,15 @@ label span {
   @apply mb-[.3em] font-bold text-left;
 }
 
-input {
-  @apply p-3 bg-[#f2ede5] rounded-xl mt-2 border-2 border-transparent transition duration-500; 
+input, textarea {
+  @apply p-3 bg-[#f2ede5] focus:border-second-orange rounded-xl mt-2 border-2 border-transparent transition duration-500; 
 }
 
 .btn {
-  @apply my-6 p-3 rounded-xl bg-second-orange font-medium outline-none focus:bg-main-orange hover:bg-main-orange transition;
+  @apply my-6 p-3 text-center rounded-xl bg-second-orange font-medium outline-none
+   hover:bg-main-orange disabled:bg-main-orange/50 disabled:cursor-not-allowed transition;
+}
+
+.error {
+  @apply py-4 px-6 mt-4 bg-[#ffe9ea] font-semibold rounded-xl max-w-md text-left mx-auto;
 }
