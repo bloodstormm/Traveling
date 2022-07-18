@@ -5,6 +5,7 @@ import Dashboard from "../pages/Dashboard/Dashboard";
 import EditPost from "../pages/EditPost/EditPost";
 import Home from "../pages/Home/Home";
 import Login from "../pages/Login/Login";
+import PageNotFound from "../pages/PageNotFound/PageNotFound";
 import Post from "../pages/Post/Post";
 import Register from "../pages/Register/Register";
 import Search from "../pages/Search/Search";
@@ -28,6 +29,7 @@ const RoutesContainer = ( {user} ) => {
         <Route path="/dashboard" element={!user ? <Navigate to="/login" /> : <Dashboard /> } />
         <Route path="/posts/create" element={!user ? <Navigate to="/login" /> :  <CreatePost /> } />
         <Route path="/posts/edit/:id" element={!user ? <Navigate to="/login" /> : <EditPost /> } />
+        <Route path="/*" element={<PageNotFound /> } />
       </Routes>
       {/* Desabilitando Footer nas páginas de login/registro */}
       {["/login", "/register", "/posts/create", "/about"].includes(path) ? null : <Footer />}
